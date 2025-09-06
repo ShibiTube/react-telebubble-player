@@ -504,6 +504,21 @@ const DevShowcase: React.FC = () => {
             />
           </div>
         </section>
+
+        <section className="showcase-section">
+          <h2>ProgressRing Component Test</h2>
+          <p>Testing the new ProgressRing component - should appear as a white circle around the video player</p>
+          <div className="player-container">
+            <VideoPlayer
+              src={sampleVideoUrl}
+              thumbnailSrc={sampleThumbnail}
+              size={200}
+            />
+          </div>
+          <div style={{ marginTop: '20px', textAlign: 'center' }}>
+            <small>Look for the white progress ring around the video player above</small>
+          </div>
+        </section>
       </main>
 
       <footer className="showcase-footer">
