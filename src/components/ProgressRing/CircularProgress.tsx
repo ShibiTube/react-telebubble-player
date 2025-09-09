@@ -1,34 +1,42 @@
-import React from 'react';
-import { useCircularInputContext } from './context';
-import { CircularTrack } from './CircularTrack';
-import { CircularTrackProps } from './CircularTrack';
-import { DEG_360_IN_RAD } from './utils';
+import React, { useCallback } from 'react'
+import { useCircularInputContext, CircularTrack } from '.'
+import { Props as CircularTrackProps } from './CircularTrack'
+import { DEG_360_IN_RAD } from './utils'
 
-type CircularProgressProps = React.SVGProps<SVGCircleElement> &
+type Props = React.JSX.IntrinsicElements['circle'] &
   CircularTrackProps & {
     // disallow some props
-    strokeDasharray?: undefined;
-    strokeDashoffset?: undefined;
-    transform?: undefined;
-  };
+    strokeDasharray?: undefined
+    strokeDashoffset?: undefined
+    transform?: undefined
+  }
 
-// const defaultProps = {
-//   stroke: '#3D99FF',
-// };
+const defaultProps = {
+  stroke: '#3D99FF',
+}
 
-export const CircularProgress: React.FC<CircularProgressProps> = (props) => {
-  const { value, radius, center } = useCircularInputContext();
-  const innerCircumference = DEG_360_IN_RAD * radius;
+export const CircularProgress = (props: Props) => {
+  const { value, radius, center, getValueFromPointerEvent, onChange } = useCircularInputContext()
+  const innerCircumference = DEG_360_IN_RAD * radius
+
+  const handleClick = useCallback((e: React.MouseEvent<SVGCircleElement>) => {
+    e.stopPropagation()
+    if (onChange) {
+      const nearestValue = getValueFromPointerEvent(e.nativeEvent)
+      onChange(nearestValue)
+    }
+  }, [onChange, getValueFromPointerEvent])
 
   return (
     <CircularTrack
       {...props}
       strokeDasharray={innerCircumference}
-      strokeDashoffset={innerCircumference * (1 - value)}
+      strokeDashoffset={innerCircumference * (1 - value / 100)}
       transform={`rotate(-90 ${center.x} ${center.y})`}
-      style={{ pointerEvents: 'none' }}
+      onClick={handleClick}
+      style={{ cursor: 'pointer', ...props.style }}
     />
-  );
-};
+  )
+}
 
-// CircularProgress.defaultProps = defaultProps;
+CircularProgress.defaultProps = defaultProps

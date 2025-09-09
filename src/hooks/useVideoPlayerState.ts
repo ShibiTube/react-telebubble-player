@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { KeyboardEvent } from "react";
+import { KeyboardEvent, MouseEvent } from "react";
 
 interface UseVideoPlayerStateProps {
   playing?: boolean;
   onPlay?: () => void;
   onPause?: () => void;
   onEnded?: () => void;
+  clickVideoToPlay?: boolean;
 }
 
 interface UseVideoPlayerStateReturn {
@@ -16,7 +17,7 @@ interface UseVideoPlayerStateReturn {
   isUsingExternalControl: boolean;
   togglePlay: () => void;
   handleKeyPress: (e: KeyboardEvent) => void;
-  handleContainerClick: () => void;
+  handleContainerClick: (e: MouseEvent<HTMLDivElement>) => void;
 }
 
 /**
@@ -27,6 +28,7 @@ export const useVideoPlayerState = ({
   onPlay,
   onPause,
   onEnded,
+  clickVideoToPlay = true,
 }: UseVideoPlayerStateProps): UseVideoPlayerStateReturn => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -92,10 +94,29 @@ export const useVideoPlayerState = ({
     [togglePlay],
   );
 
-  const handleContainerClick = useCallback(() => {
-    // Toggle play/pause on container click
-    togglePlay();
-  }, [togglePlay]);
+  const handleContainerClick = useCallback((e: MouseEvent<HTMLDivElement>) => {
+    // Toggle play/pause on container click only if clickVideoToPlay is enabled
+    if (!clickVideoToPlay) return;
+
+    // Check if click is within the circular video area
+    const container = e.currentTarget;
+    const rect = container.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const radius = Math.min(rect.width, rect.height) / 2;
+
+    const clickX = e.clientX;
+    const clickY = e.clientY;
+
+    const distanceFromCenter = Math.sqrt(
+      Math.pow(clickX - centerX, 2) + Math.pow(clickY - centerY, 2)
+    );
+
+    // Only toggle play/pause if click is within the circular area
+    if (distanceFromCenter <= radius) {
+      togglePlay();
+    }
+  }, [togglePlay, clickVideoToPlay]);
 
   return {
     videoRef: videoRef as React.RefObject<HTMLVideoElement>,

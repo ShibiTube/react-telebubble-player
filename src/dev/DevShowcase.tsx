@@ -104,12 +104,51 @@ const DevShowcase: React.FC = () => {
       <main className="showcase-content">
         <section className="showcase-section">
           <h2>Default Player</h2>
-          <p>Basic VideoPlayer with default settings (100% size, responsive). Click anywhere on the player to play/pause, or drag the progress ring to seek!</p>
+          <p>Basic VideoPlayer with default settings (100% size, responsive). Click anywhere on the video area to play/pause, or drag the progress ring to seek!</p>
           <div className="player-container">
             <VideoPlayer
               src={sampleVideoUrl}
               thumbnailSrc={sampleThumbnail}
+              progressRingStrokeColor="#ff0000"
+              progressRingPosition="inside"
+              progressRingOffset={5}
+              clickVideoToPlay={true}
             />
+          </div>
+        </section>
+
+        <section className="showcase-section">
+          <h2>Video Click Behavior</h2>
+          <p>Control whether clicking on the video area should play/pause</p>
+
+          <div className="custom-icons-grid">
+            <div className="player-demo">
+              <h3>Click Video to Play (Default)</h3>
+              <p>Click anywhere on video area to play/pause</p>
+              <div className="player-container">
+                <VideoPlayer
+                  src={sampleVideoUrl}
+                  thumbnailSrc={sampleThumbnail}
+                  size={180}
+                  clickVideoToPlay={true}
+                  progressRingStrokeColor="#ff0000"
+                />
+              </div>
+            </div>
+
+            <div className="player-demo">
+              <h3>Only Button Clicks</h3>
+              <p>Only the play/pause button is clickable</p>
+              <div className="player-container">
+                <VideoPlayer
+                  src={sampleVideoUrl}
+                  thumbnailSrc={sampleThumbnail}
+                  size={180}
+                  clickVideoToPlay={false}
+                  progressRingStrokeColor="#0066ff"
+                />
+              </div>
+            </div>
           </div>
         </section>
 
@@ -506,17 +545,342 @@ const DevShowcase: React.FC = () => {
         </section>
 
         <section className="showcase-section">
-          <h2>ProgressRing Component Test</h2>
-          <p>Testing the new ProgressRing component - should appear as a white circle around the video player</p>
-          <div className="player-container">
-            <VideoPlayer
-              src={sampleVideoUrl}
-              thumbnailSrc={sampleThumbnail}
-              size={200}
-            />
+          <h2>ProgressRing Styles & Positions</h2>
+          <p>Different styles and positions for the progress ring - inside vs outside the video player</p>
+
+          <div className="custom-icons-grid">
+            <div className="player-demo">
+              <h3>Default (Inside, Red)</h3>
+              <p>Default red ring inside the video</p>
+              <div className="player-container">
+                <VideoPlayer
+                  src={sampleVideoUrl}
+                  thumbnailSrc={sampleThumbnail}
+                  size={180}
+                  progressRingStrokeColor="#ff0000"
+                  progressRingPosition="inside"
+                  progressRingOffset={5}
+                />
+              </div>
+            </div>
+
+            <div className="player-demo">
+              <h3>Outside Ring (Blue)</h3>
+              <p>Blue ring outside the video player</p>
+              <div className="player-container">
+                <VideoPlayer
+                  src={sampleVideoUrl}
+                  thumbnailSrc={sampleThumbnail}
+                  size={180}
+                  progressRingStrokeColor="#0066ff"
+                  progressRingPosition="outside"
+                  progressRingOffset={8}
+                />
+              </div>
+            </div>
+
+            <div className="player-demo">
+              <h3>Thick Inside (Green)</h3>
+              <p>Thick green ring inside with larger offset</p>
+              <div className="player-container">
+                <VideoPlayer
+                  src={sampleVideoUrl}
+                  thumbnailSrc={sampleThumbnail}
+                  size={180}
+                  progressRingStrokeColor="#00ff66"
+                  progressRingStrokeWidth={12}
+                  progressRingPosition="inside"
+                  progressRingOffset={10}
+                />
+              </div>
+            </div>
+
+            <div className="player-demo">
+              <h3>Thin Outside (Purple)</h3>
+              <p>Thin purple ring outside the video</p>
+              <div className="player-container">
+                <VideoPlayer
+                  src={sampleVideoUrl}
+                  thumbnailSrc={sampleThumbnail}
+                  size={180}
+                  progressRingStrokeColor="#9900ff"
+                  progressRingStrokeWidth={3}
+                  progressRingPosition="outside"
+                  progressRingOffset={5}
+                />
+              </div>
+            </div>
+
+            <div className="player-demo">
+              <h3>Orange with Background Track</h3>
+              <p>Orange ring with gray background track</p>
+              <div className="player-container">
+                <VideoPlayer
+                  src={sampleVideoUrl}
+                  thumbnailSrc={sampleThumbnail}
+                  size={180}
+                  progressRingStrokeColor="#ff6600"
+                  progressRingTrackStrokeColor="#333333"
+                  progressRingTrackStrokeWidth={8}
+                  progressRingStrokeWidth={6}
+                  progressRingPosition="inside"
+                  progressRingOffset={8}
+                />
+              </div>
+            </div>
+
+            <div className="player-demo">
+              <h3>Gradient Style (Pink)</h3>
+              <p>Pink ring with transparent background</p>
+              <div className="player-container">
+                <VideoPlayer
+                  src={sampleVideoUrl}
+                  thumbnailSrc={sampleThumbnail}
+                  size={180}
+                  progressRingStrokeColor="#ff0066"
+                  progressRingBackgroundColor="rgba(255, 0, 102, 0.2)"
+                  progressRingStrokeWidth={8}
+                  progressRingPosition="outside"
+                  progressRingOffset={12}
+                />
+              </div>
+            </div>
           </div>
-          <div style={{ marginTop: '20px', textAlign: 'center' }}>
-            <small>Look for the white progress ring around the video player above</small>
+        </section>
+
+        <section className="showcase-section">
+          <h2>Ring Position Comparison</h2>
+          <p>Side-by-side comparison of inside vs outside ring positioning</p>
+
+          <div className="custom-icons-grid">
+            <div className="player-demo">
+              <h3>Inside Position</h3>
+              <p>Ring appears inside the video circle</p>
+              <div className="player-container">
+                <VideoPlayer
+                  src={sampleVideoUrl}
+                  thumbnailSrc={sampleThumbnail}
+                  size={200}
+                  progressRingStrokeColor="#00ff00"
+                  progressRingStrokeWidth={6}
+                  progressRingPosition="inside"
+                  progressRingOffset={8}
+                />
+              </div>
+            </div>
+
+            <div className="player-demo">
+              <h3>Outside Position</h3>
+              <p>Ring appears outside the video circle</p>
+              <div className="player-container">
+                <VideoPlayer
+                  src={sampleVideoUrl}
+                  thumbnailSrc={sampleThumbnail}
+                  size={200}
+                  progressRingStrokeColor="#ff0000"
+                  progressRingStrokeWidth={6}
+                  progressRingPosition="outside"
+                  progressRingOffset={8}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="showcase-section">
+          <h2>Track Styling Options</h2>
+          <p>Different background track styles and configurations</p>
+
+          <div className="custom-icons-grid">
+            <div className="player-demo">
+              <h3>Thick Track Background</h3>
+              <p>Thick gray track with thin red progress</p>
+              <div className="player-container">
+                <VideoPlayer
+                  src={sampleVideoUrl}
+                  thumbnailSrc={sampleThumbnail}
+                  size={180}
+                  progressRingStrokeColor="#ff0000"
+                  progressRingTrackStrokeColor="#666666"
+                  progressRingTrackStrokeWidth={12}
+                  progressRingStrokeWidth={4}
+                  progressRingPosition="inside"
+                  progressRingOffset={8}
+                />
+              </div>
+            </div>
+
+            <div className="player-demo">
+              <h3>Filled Track</h3>
+              <p>Track with solid fill color</p>
+              <div className="player-container">
+                <VideoPlayer
+                  src={sampleVideoUrl}
+                  thumbnailSrc={sampleThumbnail}
+                  size={180}
+                  progressRingStrokeColor="#00ff00"
+                  progressRingTrackFill="#333333"
+                  progressRingTrackStrokeColor="#555555"
+                  progressRingTrackStrokeWidth={8}
+                  progressRingStrokeWidth={6}
+                  progressRingPosition="outside"
+                  progressRingOffset={6}
+                />
+              </div>
+            </div>
+
+            <div className="player-demo">
+              <h3>Square Line Caps</h3>
+              <p>Track with square line caps</p>
+              <div className="player-container">
+                <VideoPlayer
+                  src={sampleVideoUrl}
+                  thumbnailSrc={sampleThumbnail}
+                  size={180}
+                  progressRingStrokeColor="#0066ff"
+                  progressRingTrackStrokeColor="#cccccc"
+                  progressRingTrackStrokeWidth={6}
+                  progressRingTrackStrokeLinecap="square"
+                  progressRingStrokeWidth={4}
+                  progressRingPosition="inside"
+                  progressRingOffset={5}
+                />
+              </div>
+            </div>
+
+            <div className="player-demo">
+              <h3>Butt Line Caps</h3>
+              <p>Track with butt line caps</p>
+              <div className="player-container">
+                <VideoPlayer
+                  src={sampleVideoUrl}
+                  thumbnailSrc={sampleThumbnail}
+                  size={180}
+                  progressRingStrokeColor="#ff6600"
+                  progressRingTrackStrokeColor="#999999"
+                  progressRingTrackStrokeWidth={6}
+                  progressRingTrackStrokeLinecap="butt"
+                  progressRingStrokeWidth={4}
+                  progressRingPosition="outside"
+                  progressRingOffset={5}
+                />
+              </div>
+            </div>
+
+            <div className="player-demo">
+              <h3>Multi-Layer Track</h3>
+              <p>Multiple track layers with different colors</p>
+              <div className="player-container">
+                <VideoPlayer
+                  src={sampleVideoUrl}
+                  thumbnailSrc={sampleThumbnail}
+                  size={180}
+                  progressRingStrokeColor="#ff0066"
+                  progressRingTrackStrokeColor="#ffcccc"
+                  progressRingTrackStrokeWidth={10}
+                  progressRingStrokeWidth={6}
+                  progressRingPosition="inside"
+                  progressRingOffset={10}
+                />
+              </div>
+            </div>
+
+            <div className="player-demo">
+              <h3>Transparent Track</h3>
+              <p>No background track, just progress ring</p>
+              <div className="player-container">
+                <VideoPlayer
+                  src={sampleVideoUrl}
+                  thumbnailSrc={sampleThumbnail}
+                  size={180}
+                  progressRingStrokeColor="#9900ff"
+                  progressRingTrackStrokeColor="transparent"
+                  progressRingTrackStrokeWidth={0}
+                  progressRingStrokeWidth={5}
+                  progressRingPosition="outside"
+                  progressRingOffset={4}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="showcase-section">
+          <h2>Creative Ring Styles</h2>
+          <p>Creative and artistic progress ring designs</p>
+
+          <div className="custom-icons-grid">
+            <div className="player-demo">
+              <h3>Neon Style</h3>
+              <p>Bright cyan with glow effect</p>
+              <div className="player-container">
+                <VideoPlayer
+                  src={sampleVideoUrl}
+                  thumbnailSrc={sampleThumbnail}
+                  size={180}
+                  progressRingStrokeColor="#00ffff"
+                  progressRingTrackStrokeColor="#001122"
+                  progressRingTrackStrokeWidth={6}
+                  progressRingStrokeWidth={4}
+                  progressRingPosition="outside"
+                  progressRingOffset={6}
+                />
+              </div>
+            </div>
+
+            <div className="player-demo">
+              <h3>Gold Luxury</h3>
+              <p>Gold ring with dark background</p>
+              <div className="player-container">
+                <VideoPlayer
+                  src={sampleVideoUrl}
+                  thumbnailSrc={sampleThumbnail}
+                  size={180}
+                  progressRingStrokeColor="#ffd700"
+                  progressRingTrackStrokeColor="#2a2a2a"
+                  progressRingTrackStrokeWidth={10}
+                  progressRingStrokeWidth={8}
+                  progressRingPosition="inside"
+                  progressRingOffset={12}
+                />
+              </div>
+            </div>
+
+            <div className="player-demo">
+              <h3>Minimal White</h3>
+              <p>Clean white ring on transparent background</p>
+              <div className="player-container">
+                <VideoPlayer
+                  src={sampleVideoUrl}
+                  thumbnailSrc={sampleThumbnail}
+                  size={180}
+                  progressRingStrokeColor="#ffffff"
+                  progressRingTrackStrokeColor="transparent"
+                  progressRingTrackStrokeWidth={0}
+                  progressRingStrokeWidth={3}
+                  progressRingPosition="outside"
+                  progressRingOffset={4}
+                />
+              </div>
+            </div>
+
+            <div className="player-demo">
+              <h3>Dark Theme</h3>
+              <p>Dark ring with light background</p>
+              <div className="player-container">
+                <VideoPlayer
+                  src={sampleVideoUrl}
+                  thumbnailSrc={sampleThumbnail}
+                  size={180}
+                  progressRingStrokeColor="#000000"
+                  progressRingTrackStrokeColor="#cccccc"
+                  progressRingTrackStrokeWidth={7}
+                  progressRingStrokeWidth={5}
+                  progressRingPosition="inside"
+                  progressRingOffset={6}
+                />
+              </div>
+            </div>
           </div>
         </section>
       </main>

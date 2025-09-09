@@ -16,9 +16,17 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
   backgroundColor = "transparent",
   onSeek,
   clickTolerance = 5,
+  ringPosition = 'inside',
+  ringOffset = 5,
+  hasStarted = false,
+  // Track styling options
+  trackStrokeWidth,
+  trackStrokeColor,
+  trackFill,
+  trackStrokeLinecap,
 }) => {
-  // Convert progress from 0-100 to 0-1 for circular input
-  const value = progress / 100;
+  // Use progress directly as it's already 0-100
+  const value = progress;
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [actualSize, setActualSize] = useState(() => {
@@ -51,21 +59,27 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
     };
   }, [size]);
 
-  // Use actual size for radius calculation
-  const radius = actualSize / 2;
+  // Use actual size for radius calculation, adjusted for ring position
+  const baseRadius = actualSize / 2;
+  const radius = ringPosition === 'inside'
+    ? baseRadius - ringOffset - (strokeWidth / 2)
+    : baseRadius + ringOffset + (strokeWidth / 2);
+
+  // Calculate the total size needed for the CircularInput
+  const totalSize = ringPosition === 'inside'
+    ? actualSize
+    : actualSize + (ringOffset + strokeWidth) * 2;
 
   const handleChange = (newValue: number) => {
     if (onSeek) {
-      // Convert back to 0-100 range
-      onSeek(newValue * 100);
+      // newValue is already 0-100 range
+      onSeek(newValue);
     }
   };
 
-  const handleChangeEnd = (newValue: number) => {
-    if (onSeek) {
-      // Convert back to 0-100 range
-      onSeek(newValue * 100);
-    }
+  const handleContainerClick = () => {
+    // Let CircularInput handle whether to stop propagation based on click location
+    // This allows clicks outside the ring to bubble up for play/pause
   };
 
   return (
@@ -76,27 +90,29 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
         width: typeof size === 'number' ? `${size}px` : size,
         height: typeof size === 'number' ? `${size}px` : size,
       }}
+      onClick={handleContainerClick}
     >
       <CircularInput
         value={value}
         radius={radius}
         onChange={handleChange}
-        onChangeEnd={handleChangeEnd}
         clickTolerance={clickTolerance}
+        hasStarted={hasStarted}
         style={{
-          width: '100%',
-          height: '100%',
+          width: `${totalSize}px`,
+          height: `${totalSize}px`,
           position: 'absolute',
-          top: 0,
-          left: 0,
+          top: ringPosition === 'inside' ? 0 : -ringOffset - strokeWidth,
+          left: ringPosition === 'inside' ? 0 : -ringOffset - strokeWidth,
           zIndex: 2,
+          pointerEvents: 'auto',
         }}
       >
         <CircularTrack
-          stroke={backgroundColor}
-          strokeWidth={strokeWidth}
-          fill="none"
-          strokeLinecap="round"
+          stroke={trackStrokeColor || backgroundColor}
+          strokeWidth={trackStrokeWidth || strokeWidth}
+          fill={trackFill || "none"}
+          strokeLinecap={trackStrokeLinecap || "round"}
         />
         <CircularProgress
           stroke={strokeColor}
@@ -109,6 +125,7 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
           stroke={strokeColor}
           strokeWidth={3}
           r={8}
+          hasStarted={hasStarted}
         />
       </CircularInput>
     </div>

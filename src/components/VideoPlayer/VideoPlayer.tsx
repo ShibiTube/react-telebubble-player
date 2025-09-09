@@ -33,6 +33,19 @@ const VideoPlayer = memo<VideoPlayerProps>(({
   onPlayClassName,
   onPauseClassName,
   progressClickTolerance: _progressClickTolerance = 5,
+  // Progress ring styling props
+  progressRingStrokeColor = "#ff0000",
+  progressRingBackgroundColor = "transparent",
+  progressRingStrokeWidth = 8,
+  progressRingPosition = 'inside',
+  progressRingOffset = 5,
+  // Track styling props
+  progressRingTrackStrokeWidth,
+  progressRingTrackStrokeColor,
+  progressRingTrackFill,
+  progressRingTrackStrokeLinecap,
+  // Video interaction props
+  clickVideoToPlay = true,
   // External state management props
   playing,
   onPlay,
@@ -52,6 +65,7 @@ const VideoPlayer = memo<VideoPlayerProps>(({
     onPlay,
     onPause,
     onEnded,
+    clickVideoToPlay,
   });
 
   // Progress state
@@ -68,7 +82,7 @@ const VideoPlayer = memo<VideoPlayerProps>(({
 
     const progress = (video.currentTime / video.duration) * 100;
     setProgress(progress);
-  }, [videoRef]);
+  }, []);
 
   // Handle seeking
   const handleSeek = useCallback((newProgress: number) => {
@@ -78,7 +92,8 @@ const VideoPlayer = memo<VideoPlayerProps>(({
     const time = (newProgress / 100) * video.duration;
     video.currentTime = time;
     setProgress(newProgress);
-  }, [videoRef]);
+  }, []);
+
 
 
   // Add event listeners for progress updates
@@ -105,11 +120,23 @@ const VideoPlayer = memo<VideoPlayerProps>(({
         progress={progress}
         size={size}
         className={_progressRingClassName}
-        strokeColor="#ff0000"
-        strokeWidth={8}
+        strokeColor={progressRingStrokeColor}
+        backgroundColor={progressRingBackgroundColor}
+        strokeWidth={progressRingStrokeWidth}
+        ringPosition={progressRingPosition}
+        ringOffset={progressRingOffset}
+        trackStrokeWidth={progressRingTrackStrokeWidth}
+        trackStrokeColor={progressRingTrackStrokeColor}
+        trackFill={progressRingTrackFill}
+        trackStrokeLinecap={progressRingTrackStrokeLinecap}
         onSeek={handleSeek}
+        clickTolerance={_progressClickTolerance}
+        hasStarted={hasStarted}
       />
-      <div className={clsx(styles.videoWrapper, videoWrapperClassName)}>
+      <div
+        className={clsx(styles.videoWrapper, videoWrapperClassName)}
+        style={{ cursor: clickVideoToPlay ? 'pointer' : 'default' }}
+      >
         {thumbnailSrc && (
           <Thumbnail
             src={thumbnailSrc}

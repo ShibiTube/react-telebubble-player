@@ -23,6 +23,19 @@ export interface VideoPlayerProps {
   onPlayClassName?: string;
   onPauseClassName?: string;
   progressClickTolerance?: number;
+  // Progress ring styling props
+  progressRingStrokeColor?: string;
+  progressRingBackgroundColor?: string;
+  progressRingStrokeWidth?: number;
+  progressRingPosition?: 'inside' | 'outside';
+  progressRingOffset?: number;
+  // Track styling props
+  progressRingTrackStrokeWidth?: number;
+  progressRingTrackStrokeColor?: string;
+  progressRingTrackFill?: string;
+  progressRingTrackStrokeLinecap?: 'butt' | 'round' | 'square';
+  // Video interaction props
+  clickVideoToPlay?: boolean; // whether clicking on video area (not ring) should play/pause
   // External state management props
   playing?: boolean;
   onPlay?: () => void;

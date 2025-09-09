@@ -1,44 +1,44 @@
-import React, { useRef } from 'react';
-import { useCircularInputContext } from './context';
-import { useCircularDrag } from './useCircularDrag';
-import { polarToCartesian, valueToAngle } from './utils';
+import { useRef, useCallback } from 'react'
+import { useCircularInputContext, useCircularDrag } from './'
 
-export type CircularThumbProps = React.SVGProps<SVGCircleElement> & {
-  // disallow some props
-  ref?: undefined;
-  cx?: undefined;
-  cy?: undefined;
-};
+export const CircularThumb = (props: React.JSX.IntrinsicElements['circle'] & { hasStarted?: boolean }) => {
+  const { getPointFromValue, isFocused, getValueFromPointerEvent, onChange } = useCircularInputContext()
+  const ref = useRef<SVGCircleElement | null>(null)
+  const { isDragging } = useCircularDrag(ref)
+  const { hasStarted = false } = props
 
-export const CircularThumb: React.FC<CircularThumbProps> = ({
-  fill = '#3D99FF',
-  stroke = '#ffffff',
-  strokeWidth = 3,
-  r = 8,
-  ...props
-}) => {
-  const { value, radius, center } = useCircularInputContext();
-  const ref = useRef<SVGCircleElement | null>(null);
-  useCircularDrag(ref);
+  const handleClick = useCallback((e: React.MouseEvent<SVGCircleElement>) => {
+    e.stopPropagation()
+    if (onChange) {
+      const nearestValue = getValueFromPointerEvent(e.nativeEvent)
+      onChange(nearestValue)
+    }
+  }, [onChange, getValueFromPointerEvent])
 
-  const thumbPosition = polarToCartesian({
-    center,
-    angle: valueToAngle(value),
-    radius,
-  });
+  const point = getPointFromValue()
 
+  // Check conditions after all hooks are called
+  if (!point || !hasStarted) return null
+
+  const { x, y } = point
+
+  const style = {
+    transition: 'r 150ms cubic-bezier(0.215, 0.61, 0.355, 1)',
+    cursor: 'pointer',
+    ...(props.style || {}),
+  }
   return (
     <circle
+      r={isFocused || isDragging ? 8 : 6}
+      fill="#ffffff"
+      stroke="#ff0000"
+      strokeWidth={2}
       {...props}
+      style={style}
       ref={ref}
-      cx={thumbPosition.x}
-      cy={thumbPosition.y}
-      fill={fill}
-      stroke={stroke}
-      strokeWidth={strokeWidth}
-      r={r}
-      style={{ pointerEvents: 'auto' }}
+      cx={x}
+      cy={y}
+      onClick={handleClick}
     />
-  );
-};
-
+  )
+}
