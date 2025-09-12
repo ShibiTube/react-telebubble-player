@@ -12,6 +12,11 @@ export default defineConfig(({ command }) => {
       server: {
         open: true,
       },
+      resolve: {
+        alias: {
+          '@': resolve(__dirname, 'src'),
+        },
+      },
     };
   }
 
@@ -24,6 +29,11 @@ export default defineConfig(({ command }) => {
         tsconfigPath: resolve(__dirname, 'tsconfig.build.json'),
       }),
     ],
+    resolve: {
+      alias: {
+        '@': resolve(__dirname, 'src'),
+      },
+    },
     build: {
       lib: {
         entry: resolve(__dirname, 'src/index.ts'),
@@ -32,7 +42,6 @@ export default defineConfig(({ command }) => {
       },
       rollupOptions: {
         external: ['react', 'react/jsx-runtime'],
-
       }
     },
   };

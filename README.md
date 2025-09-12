@@ -1,6 +1,6 @@
 # React Telebubble Player
 
-A customizable, accessible, and modern circular video player React component. Built with TypeScript and SCSS modules, this library is designed for easy integration and flexible styling in your React projects.
+A customizable, accessible, and modern circular video player React component. Built with TypeScript and BEM SCSS, this library is designed for easy integration and flexible styling in your React projects.
 
 [![NPM version](https://badge.fury.io/js/react-telebubble-player.svg)](http://badge.fury.io/js/react-telebubble-player)
 
@@ -20,36 +20,42 @@ While it works and has some cool features, **it's not recommended for production
 - **📞 State Callbacks** - `onPlay`, `onPause`, `onEnded` for state synchronization
 - **🔄 Single Source of Truth** - External state takes precedence when provided
 - **🧹 Simplified & Cleaner Code** - Better maintainability and performance
+- **🎯 New Component API** - Composable sub-components for flexible styling
+- **📦 Zero Extra Dependencies** - Removed clsx, using custom utility functions
+- **🔧 Path Aliases** - Clean imports with `@` alias
+- **🎨 BEM SCSS** - Converted from SCSS modules to BEM methodology
 
-## 🎉 What's New in v0.4.0
+## 🚀 Quick Start
 
-- **🎯 Fixed progress bar for percentage sizes** - Now works perfectly with 100%, 50%, etc.
-- **📱 Smart click tolerance** - New `progressClickTolerance` prop (default 5%) optimized for smaller players
-- **🫥 Icon hiding support** - Set `playIcon="none"` or `pauseIcon="none"` to hide icons completely
-- **👆 Click anywhere to play** - Click anywhere on the player to play/pause with smart conflict detection
-- **🎨 Enhanced custom pause icons** - Full support for custom pause icons with comprehensive examples
+1. Run the development server:
+   ```bash
+   npm run dev
+   ```
 
----
+2. Open your browser to see both showcases with a toggle button in the top-right corner
 
-## Features
-- **🎮 External State Management** - Control play/pause state from outside the component with `playing` prop
-- **📞 State Change Callbacks** - `onPlay`, `onPause`, and `onEnded` callbacks for state synchronization
-- **Circular video progress ring** with interactive seeking and proportional click tolerance
-- **Click anywhere to play** - Click anywhere on the player to play/pause (smart detection prevents conflicts)
-- **Custom play/pause icons** - Replace default icons with your own designs or hide them completely
-- **Icon hiding support** - Set icons to `"none"` to hide them completely (no gray circles!)
-- **Custom play buttons** - Complete control over play button appearance and behavior
-- **State-based styling** - Different styles for play vs pause states
-- **Progress click tolerance** - Control how much area around the progress ring is clickable
-- **Responsive sizing** - Works perfectly with percentage-based sizes (100%, 50%, etc.)
-- Customizable via props and class names
-- Thumbnail support with smooth transitions
-- Fully accessible (ARIA labels, keyboard navigation)
-- Written in TypeScript
+3. Click "New TelebubblePlayer Showcase" to explore the new component structure
 
----
+## 🎯 Component API Structure
 
-## Installation
+The new TelebubblePlayer uses a composable API with sub-components:
+
+```tsx
+<TelebubblePlayer src="video.mp4" size="200px">
+  <TelebubblePlayer.Track strokeColor="#666" strokeWidth={8} />
+  <TelebubblePlayer.Progress strokeColor="#00aaff" strokeWidth={10} />
+  <TelebubblePlayer.Thumb radius={5} fill="#fff" />
+  <TelebubblePlayer.Overlay>
+    <TelebubblePlayer.ToggleButton
+      playIcon={<CustomIcon />}
+      pauseIcon={<CustomIcon />}
+      className="custom-toggle-btn"
+    />
+  </TelebubblePlayer.Overlay>
+</TelebubblePlayer>
+```
+
+## 📦 Installation
 
 ```bash
 npm install react-telebubble-player
@@ -61,47 +67,75 @@ or with yarn:
 yarn add react-telebubble-player
 ```
 
----
-
-## Usage
-
-### Basic Usage
+## 🎮 Basic Usage
 
 ```tsx
-import { VideoPlayer } from 'react-telebubble-player';
+import { TelebubblePlayer } from 'react-telebubble-player';
 
 export default function App() {
   return (
-    <VideoPlayer
+    <TelebubblePlayer
       src="/path/to/video.mp4"
-      thumbnailSrc="/path/to/thumbnail.jpg"
-      videoAriaLabel="Demo video player"
-      playButtonAriaLabelPlay="Play video"
-      playButtonAriaLabelPause="Pause video"
-    />
+      size="200px"
+      playing={false}
+      onPlay={() => console.log('Playing')}
+      onPause={() => console.log('Paused')}
+      onEnd={() => console.log('Ended')}
+    >
+      <TelebubblePlayer.Track strokeColor="#ccc" strokeWidth={8} />
+      <TelebubblePlayer.Progress strokeColor="#0af" strokeWidth={10} />
+      <TelebubblePlayer.Thumb radius={6} fill="#fff" />
+      <TelebubblePlayer.Overlay>
+        <TelebubblePlayer.ToggleButton />
+      </TelebubblePlayer.Overlay>
+    </TelebubblePlayer>
   );
 }
 ```
 
-### Size Examples
+## 🎨 Customization Options
+
+### Main TelebubblePlayer Props
+- `src`: Video source URL (required)
+- `size`: Player size (number or string, default: "100%")
+- `className`: Custom class for the container
+- `playing`: External control of play/pause state
+- `onPlay`: Called when video starts playing
+- `onPause`: Called when video is paused
+- `onEnd`: Called when video ends
+
+### Track Props
+- `strokeColor`: Background track color
+- `strokeWidth`: Track thickness
+- `fill`: Track fill color
+- `strokeLinecap`: Track line cap style
+
+### Progress Props
+- `strokeColor`: Progress indicator color
+- `strokeWidth`: Progress thickness
+- `fill`: Progress fill color
+- `strokeLinecap`: Progress line cap style
+
+### Thumb Props
+- `radius`: Thumb size
+- `fill`: Thumb color
+- `stroke`: Thumb border color
+- `strokeWidth`: Thumb border thickness
+
+### ToggleButton Props
+- `playIcon`: Custom play icon component
+- `pauseIcon`: Custom pause icon component
+- `className`: CSS class for styling
+- Automatically shows/hides based on playing state
+
+### Overlay Props
+- `className`: CSS class for overlay container
+- `children`: Any custom elements to display
+
+## 🎭 Custom Icons
 
 ```tsx
-// Default responsive size (100%)
-<VideoPlayer src="/video.mp4" />
-
-// Fixed pixel size
-<VideoPlayer src="/video.mp4" size={300} />
-
-// CSS size values
-<VideoPlayer src="/video.mp4" size="50%" />
-<VideoPlayer src="/video.mp4" size="20rem" />
-<VideoPlayer src="/video.mp4" size="50vw" />
-```
-
-### Custom Play Icons
-
-```tsx
-import { VideoPlayer } from 'react-telebubble-player';
+import { TelebubblePlayer } from 'react-telebubble-player';
 
 const customPlayIcon = (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -118,122 +152,43 @@ const customPauseIcon = (
 
 export default function App() {
   return (
-    <VideoPlayer
-      src="/path/to/video.mp4"
-      playIcon={customPlayIcon}
-      pauseIcon={customPauseIcon}
-    />
+    <TelebubblePlayer src="/video.mp4">
+      <TelebubblePlayer.Track strokeColor="#666" strokeWidth={8} />
+      <TelebubblePlayer.Progress strokeColor="#0af" strokeWidth={10} />
+      <TelebubblePlayer.Thumb radius={6} fill="#fff" />
+      <TelebubblePlayer.Overlay>
+        <TelebubblePlayer.ToggleButton
+          playIcon={customPlayIcon}
+          pauseIcon={customPauseIcon}
+          className="custom-toggle-btn"
+        />
+      </TelebubblePlayer.Overlay>
+    </TelebubblePlayer>
   );
 }
 ```
 
-### Custom Play Button
-
-For complete control over the play button appearance:
+## 🎨 Size Examples
 
 ```tsx
-import { VideoPlayer } from 'react-telebubble-player';
+// Default responsive size (100%)
+<TelebubblePlayer src="/video.mp4" />
 
-const customPlayButton = ({ isPlaying, onClick, onKeyDown, ariaLabel, className }) => (
-  <button
-    onClick={onClick}
-    onKeyDown={onKeyDown}
-    aria-label={ariaLabel}
-    className={className}
-    style={{
-      position: 'absolute',
-      zIndex: 3,
-      background: isPlaying ? 'rgba(255, 0, 0, 0.8)' : 'rgba(0, 255, 0, 0.8)',
-      border: 'none',
-      borderRadius: '50%',
-      width: '60px',
-      height: '60px',
-      cursor: 'pointer',
-    }}
-  >
-    {isPlaying ? '⏸️' : '▶️'}
-  </button>
-);
+// Fixed pixel size
+<TelebubblePlayer src="/video.mp4" size={300} />
 
-export default function App() {
-  return (
-    <VideoPlayer
-      src="/path/to/video.mp4"
-      customPlayButton={customPlayButton}
-      onPlayClassName="playing-state"
-      onPauseClassName="paused-state"
-    />
-  );
-}
+// CSS size values
+<TelebubblePlayer src="/video.mp4" size="50%" />
+<TelebubblePlayer src="/video.mp4" size="20rem" />
+<TelebubblePlayer src="/video.mp4" size="50vw" />
 ```
 
-### Hidden Icons
-
-You can hide play or pause icons completely by setting them to `"none"`:
-
-```tsx
-// Hide only the play icon (shows pause icon when playing)
-<VideoPlayer
-  src="/video.mp4"
-  playIcon="none"
-  pauseIcon={customPauseIcon}
-/>
-
-// Hide only the pause icon (shows play icon when paused)
-<VideoPlayer
-  src="/video.mp4" 
-  playIcon={customPlayIcon}
-  pauseIcon="none"
-/>
-
-// Hide both icons completely (clean, minimal look)
-<VideoPlayer
-  src="/video.mp4"
-  playIcon="none"
-  pauseIcon="none"
-/>
-```
-
-### Progress Click Tolerance
-
-Control how much area around the progress ring is clickable for seeking vs clicking to play/pause:
-
-```tsx
-// Tight tolerance (5% - default, optimized for smaller players)
-<VideoPlayer src="/video.mp4" progressClickTolerance={5} />
-
-// Medium tolerance (15% - good balance)
-<VideoPlayer src="/video.mp4" progressClickTolerance={15} />
-
-// Generous tolerance (30% - easier seeking, less play/pause area)
-<VideoPlayer src="/video.mp4" progressClickTolerance={30} />
-```
-
-**How it works:**
-- **Progress ring area** (within tolerance %) → Seeks to that position
-- **Anywhere else** → Toggles play/pause
-- **Play/pause button** → Always toggles play/pause (isolated from other interactions)
-
-### Click Anywhere to Play
-
-The player now supports clicking anywhere to play/pause, with smart detection:
-
-```tsx
-<VideoPlayer
-  src="/video.mp4"
-  // Click anywhere on the player to play/pause
-  // Click on progress ring to seek 
-  // Click on play/pause button for guaranteed play/pause
-  progressClickTolerance={5} // Adjust balance between seeking vs play/pause
-/>
-```
-
-### External State Management
+## 🎮 External State Management
 
 Control playback from external state with the `playing` prop and callbacks:
 
 ```tsx
-import { VideoPlayer } from 'react-telebubble-player';
+import { TelebubblePlayer } from 'react-telebubble-player';
 import { useState } from 'react';
 
 function MyComponent() {
@@ -245,13 +200,20 @@ function MyComponent() {
         {isPlaying ? 'Pause' : 'Play'}
       </button>
 
-      <VideoPlayer
+      <TelebubblePlayer
         src="/video.mp4"
         playing={isPlaying}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
-        onEnded={() => setIsPlaying(false)}
-      />
+        onEnd={() => setIsPlaying(false)}
+      >
+        <TelebubblePlayer.Track strokeColor="#ccc" strokeWidth={8} />
+        <TelebubblePlayer.Progress strokeColor="#0af" strokeWidth={10} />
+        <TelebubblePlayer.Thumb radius={6} fill="#fff" />
+        <TelebubblePlayer.Overlay>
+          <TelebubblePlayer.ToggleButton />
+        </TelebubblePlayer.Overlay>
+      </TelebubblePlayer>
     </div>
   );
 }
@@ -263,43 +225,60 @@ function MyComponent() {
 - Callbacks sync your external state with video events
 - Perfect for Redux, Zustand, Context, or any state management
 
----
+## 🎨 CSS Styling
 
-## Props
+The component uses BEM class names for easy styling:
 
-| Prop                      | Type                | Default           | Description                                      |
-|---------------------------|---------------------|-------------------|--------------------------------------------------|
-| `src`                     | string              | **required**      | Video source URL                                 |
-| `size`                    | number \| string    | "100%"            | Size of the player (pixels if number, CSS value if string) |
-| `thumbnailSrc`            | string              | -                 | Thumbnail image URL                              |
-| `className`               | string              | -                 | Custom class for the container                   |
-| `containerClassName`      | string              | -                 | Custom class for the container                   |
-| `progressRingClassName`   | string              | -                 | Custom class for the SVG progress ring           |
-| `progressCircleClassName` | string              | -                 | Custom class for the SVG progress circle         |
-| `videoWrapperClassName`   | string              | -                 | Custom class for the video wrapper               |
-| `videoClassName`          | string              | -                 | Custom class for the video element               |
-| `thumbnailClassName`      | string              | -                 | Custom class for the thumbnail                   |
-| `playButtonClassName`     | string              | -                 | Custom class for the default play button         |
-| `playIcon`                | React.ReactNode \| "none" | -          | Custom play icon (replaces default triangle) or "none" to hide |
-| `pauseIcon`               | React.ReactNode \| "none" | -          | Custom pause icon (replaces default bars) or "none" to hide |
-| `progressClickTolerance`  | number              | 5                 | Percentage of radius for progress ring click tolerance (5-30 recommended) |
-| `customPlayButton`        | function            | -                 | Complete custom play button component            |
-| `customPlayButtonClassName` | string            | -                 | Custom class for custom play button              |
-| `onPlayClassName`         | string              | -                 | Class applied when video is playing              |
-| `onPauseClassName`        | string              | -                 | Class applied when video is paused               |
-| `videoAriaLabel`          | string              | "Video player"    | ARIA label for the video element                 |
-| `thumbnailAlt`            | string              | "Video thumbnail" | Alt text for the thumbnail image                 |
-| `playButtonAriaLabelPlay` | string              | "Play"            | ARIA label for play button (when paused)         |
-| `playButtonAriaLabelPause`| string              | "Pause"           | ARIA label for play button (when playing)        |
-| **External State Management** | | | |
-| `playing`                 | boolean             | -                 | External control of play/pause state             |
-| `onPlay`                  | () => void          | -                 | Called when video starts playing                 |
-| `onPause`                 | () => void          | -                 | Called when video is paused                      |
-| `onEnded`                 | () => void          | -                 | Called when video ends                           |
+- `.telebubble-player` - Main container
+- `.telebubble-player__video-wrapper` - Video container
+- `.telebubble-player__video` - Video element
+- `.telebubble-player__thumbnail` - Thumbnail image
+- `.telebubble-player__thumbnail--hidden` - Hidden thumbnail state
+- `.telebubble-player__play-button` - Play button
+- `.progress-ring` - Progress ring container
+- `.progress-ring__track` - Background track
+- `.progress-ring__progress` - Progress indicator
+- `.progress-ring__thumb` - Progress thumb
+- `.telebubble-toggle-button` - Toggle button
+- `.telebubble-overlay` - Overlay container
 
----
+## 🔄 Migration from Old API
 
-## Development
+The new API provides a more declarative and composable structure:
+
+**Old API:**
+```tsx
+<VideoPlayer
+  src="video.mp4"
+  size="200px"
+  playButtonIcon={customIcon}
+  progressRingStrokeColor="#00aaff"
+  // ... many individual props
+/>
+```
+
+**New API:**
+```tsx
+<TelebubblePlayer src="video.mp4" size="200px">
+  <TelebubblePlayer.Track strokeColor="#666" />
+  <TelebubblePlayer.Progress strokeColor="#00aaff" />
+  <TelebubblePlayer.Thumb radius={5} />
+  <TelebubblePlayer.Overlay>
+    <TelebubblePlayer.ToggleButton icon={customIcon} />
+  </TelebubblePlayer.Overlay>
+</TelebubblePlayer>
+```
+
+## 🎯 Benefits
+
+1. **Composability**: Mix and match components as needed
+2. **Flexibility**: Custom styling per component
+3. **Maintainability**: Clear component separation
+4. **Extensibility**: Easy to add new sub-components
+5. **Developer Experience**: Intuitive API structure
+6. **Zero Dependencies**: No external CSS libraries required
+
+## 🚀 Development
 
 ### Run Development Showcase
 
@@ -310,12 +289,13 @@ npm run dev
 ```
 
 This will start a development server with examples of:
-- Basic video player with click-anywhere-to-play
-- Custom play & pause icons (triangle, heart, star with matching pause styles)
-- Hidden icons examples ("none" value demonstrations)
-- Progress click tolerance demonstrations (5%, 15%, 30%)
-- Different player sizes (120px, 200px, 50%)
-- Players with and without thumbnails
+- Basic TelebubblePlayer with default styling
+- Track variations (thin/thick, different colors)
+- Progress styles (gradient/solid, minimal/bold)
+- Thumb styles (large/small, color coordination)
+- Custom icons (heart, star, square shapes)
+- Overlay customization (positioning, additional UI elements)
+- Advanced combinations (complex layouts, multiple elements)
 
 ### Build for Production (Library Mode)
 
@@ -325,12 +305,18 @@ npm run build
 
 This creates the distributable library files in the `dist/` directory.
 
----
+## 🧹 Technical Improvements
 
-## Contributing
+- **Path Aliases**: Clean imports with `@` alias instead of relative paths
+- **Custom clsx**: Replaced clsx dependency with lightweight utility function
+- **BEM SCSS**: Converted from SCSS modules to BEM methodology for better maintainability
+- **TypeScript**: Full type safety with proper interfaces and props
+- **Zero Runtime Dependencies**: Only React and React DOM as peer dependencies
+
+## 🤝 Contributing
+
 Pull requests and issues are welcome! Please open an issue to discuss your idea or bug before submitting a PR.
 
----
+## 📄 License
 
-## License
 MIT
