@@ -1,14 +1,5 @@
-// Main VideoPlayer component
-import VideoPlayer from './VideoPlayer';
-export { VideoPlayer };
-
-// Types
+// Legacy types for backward compatibility
 export type {
-  VideoPlayerProps,
-  CustomPlayButtonProps,
   VideoProps,
   ThumbnailProps,
-  PlayButtonProps,
-  CustomPlayButtonWrapperProps,
-  SizeCalculationResult,
 } from './types';

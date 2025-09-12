@@ -1,11 +1,5 @@
-// Components
-export * from './components';
-
-// Hooks
-export * from './hooks';
-
-// Icons
-export * from './icons';
-
-// Utils
-export * from './utils';
+export { TelebubblePlayer } from './components/TelebubblePlayer';
+export type { TelebubblePlayerProps } from './components/TelebubblePlayer';
+export { useVideoPlayerState } from './hooks/useVideoPlayerState';
+export { PlayIcon, PauseIcon } from './icons';
+export { calculateSize } from './utils/videoPlayer';

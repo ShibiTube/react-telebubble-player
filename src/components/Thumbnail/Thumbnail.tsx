@@ -1,7 +1,7 @@
 import React from "react";
-import clsx from "clsx";
-import { ThumbnailProps } from "../VideoPlayer/types";
-import styles from "../VideoPlayer/VideoPlayer.module.scss";
+import { clsx } from "@/utils";
+import "@/styles/telebubble-player.scss";
+import { ThumbnailProps } from "@/components/VideoPlayer/types";
 
 export const Thumbnail: React.FC<ThumbnailProps> = ({
   src,
@@ -13,8 +13,8 @@ export const Thumbnail: React.FC<ThumbnailProps> = ({
     <img
       src={src}
       alt={alt}
-      className={clsx(styles.thumbnail, className, {
-        [styles['thumbnail--hidden']]: isHidden,
+      className={clsx("telebubble-player__thumbnail", className, {
+        'telebubble-player__thumbnail--hidden': isHidden,
       })}
       draggable={false}
     />

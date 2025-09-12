@@ -1,18 +1,14 @@
-export interface ProgressRingProps {
-  progress: number; // 0-100
-  size?: number | string;
-  strokeWidth?: number;
-  className?: string;
-  strokeColor?: string;
-  backgroundColor?: string;
-  onSeek?: (progress: number) => void;
-  clickTolerance?: number;
-  ringPosition?: 'inside' | 'outside';
-  ringOffset?: number; // offset in pixels from video edge
-  hasStarted?: boolean; // whether video has been played
-  // Track styling options
-  trackStrokeWidth?: number;
-  trackStrokeColor?: string;
-  trackFill?: string;
-  trackStrokeLinecap?: 'butt' | 'round' | 'square';
+import { Coordinates } from '@/utils/progressRing'
+
+export type ProgressRingInputContext = {
+  value: number
+  radius: number
+  center: Coordinates
+  isFocused: boolean
+  setFocused: React.Dispatch<React.SetStateAction<boolean>>
+  onChange: (value: number) => void
+  getPointFromValue: (v?: number) => Coordinates | null
+  getValueFromPointerEvent: (e: Event) => number
+  clickTolerance: number
+  hasStarted: boolean
 }

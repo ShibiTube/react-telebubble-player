@@ -1,12 +1,12 @@
 import { useEffect, RefObject, useState, useCallback } from 'react'
-import { useCircularInputContext } from './'
+import { useProgressRingInputContext } from '@/components/ProgressRing/ProgressRingInputContext'
 
 export function useCircularDrag(ref: RefObject<SVGElement | null>) {
   const {
     onChange,
     getValueFromPointerEvent,
     hasStarted,
-  } = useCircularInputContext()
+  } = useProgressRingInputContext()
   const [isDragging, setDragging] = useState(false)
 
   const handleStart: EventListener = useCallback(
@@ -22,12 +22,12 @@ export function useCircularDrag(ref: RefObject<SVGElement | null>) {
 
   const handleMove: EventListener = useCallback(
     (e) => {
-      if (!hasStarted) return
+      if (!hasStarted || !isDragging) return
       stopEvent(e)
       const nearestValue = getValueFromPointerEvent(e)
       onChange(nearestValue)
     },
-    [onChange, getValueFromPointerEvent, hasStarted]
+    [onChange, getValueFromPointerEvent, hasStarted, isDragging]
   )
 
   const handleEnd: EventListener = useCallback(

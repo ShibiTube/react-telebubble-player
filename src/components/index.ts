@@ -1,23 +1,31 @@
-// Main VideoPlayer component
-export { VideoPlayer } from './VideoPlayer';
+// Main TelebubblePlayer component
+export { TelebubblePlayer } from './TelebubblePlayer';
 
 // Sub-components
 export { Video } from './Video';
 export { Thumbnail } from './Thumbnail';
-export { PlayButton } from './PlayButton';
-export { CustomPlayButtonWrapper } from './CustomPlayButtonWrapper';
-export { ProgressRing } from './ProgressRing';
 
-// Re-export types from VideoPlayer
+// TelebubblePlayer sub-components
+export {
+  Track,
+  Progress,
+  Thumb,
+  Input,
+  Overlay,
+  ToggleButton,
+  ProgressRingInput,
+  ProgressRingInputProvider,
+  useProgressRingInputContext,
+  useCircularDrag
+} from './VideoPlayer/components';
+
+// Re-export types from TelebubblePlayer
 export type {
-  VideoPlayerProps,
-  CustomPlayButtonProps,
+  TelebubblePlayerProps,
+} from './TelebubblePlayer';
+
+// Re-export types from VideoPlayer (used by sub-components)
+export type {
   VideoProps,
   ThumbnailProps,
-  PlayButtonProps,
-  CustomPlayButtonWrapperProps,
-  SizeCalculationResult,
 } from './VideoPlayer/types';
-
-// Re-export types from ProgressRing
-export type { ProgressRingProps } from './ProgressRing/types';

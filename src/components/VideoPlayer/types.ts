@@ -78,17 +78,6 @@ export interface PlayButtonProps {
   pauseIcon?: React.ReactNode | "none";
 }
 
-export interface CustomPlayButtonWrapperProps {
-  isPlaying: boolean;
-  onClick: (e?: React.MouseEvent) => void;
-  onKeyDown: (e: KeyboardEvent) => void;
-  ariaLabel: string;
-  className?: string;
-  onPlayClassName?: string;
-  onPauseClassName?: string;
-  customPlayButton: (props: CustomPlayButtonProps) => React.ReactNode;
-}
-
 export interface SizeCalculationResult {
   numericSize: number;
   cssVariables: React.CSSProperties;

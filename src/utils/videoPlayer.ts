@@ -1,4 +1,4 @@
-import { SizeCalculationResult } from "../components/VideoPlayer/types";
+import { SizeCalculationResult } from "@/components/VideoPlayer/types";
 
 /**
  * Calculate numeric size from size prop (number or string)
@@ -6,7 +6,15 @@ import { SizeCalculationResult } from "../components/VideoPlayer/types";
  * @returns Numeric size value, defaults to 300 if size is a string
  */
 export const getNumericSize = (size: number | string): number => {
-  return typeof size === 'number' ? size : 300;
+  if (typeof size === 'number') return size;
+  
+  // For percentage strings, we can't determine the actual size without container context
+  // So we return a reasonable default that will be overridden by CSS
+  if (typeof size === 'string' && size.includes('%')) {
+    return 400; // Default for percentage-based sizing
+  }
+  
+  return 300;
 };
 
 /**

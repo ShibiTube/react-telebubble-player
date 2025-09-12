@@ -1,7 +1,7 @@
 import React from "react";
-import clsx from "clsx";
-import { VideoProps } from "../VideoPlayer/types";
-import styles from "../VideoPlayer/VideoPlayer.module.scss";
+import { clsx } from "@/utils";
+import "@/styles/telebubble-player.scss";
+import { VideoProps } from "@/components/VideoPlayer/types";
 
 export const Video: React.FC<VideoProps> = ({
   src,
@@ -13,7 +13,7 @@ export const Video: React.FC<VideoProps> = ({
   return (
     <video
       ref={videoRef}
-      className={clsx(styles.video, className)}
+      className={clsx("telebubble-player__video", className)}
       src={src}
       playsInline
       onKeyDown={onKeyDown}
